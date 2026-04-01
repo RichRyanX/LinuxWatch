@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Brief — LinuxWatch</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f0e;
+    --surface: #131614;
+    --surface2: #1a1d1b;
+    --border: #252926;
+    --border2: #2f3330;
+    --green: #3ddc84;
+    --green-dim: #1f6e41;
+    --green-muted: #2a4a35;
+    --amber: #f5a623;
+    --amber-muted: #3d2a0a;
+    --red: #e05252;
+    --red-muted: #3a1515;
+    --text: #e8ede9;
+    --text2: #8a9b8d;
+    --text3: #4a5c4e;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  html { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+  body { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* Top bar */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border2); padding-bottom: 16px; margin-bottom: 36px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 32px; height: 32px; border: 1.5px solid var(--green); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--green);
+  }
+  .project-name { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
+  .project-sub { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 1px; }
+  .badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+    padding: 3px 8px; border-radius: 3px; border: 1px solid;
+  }
+  .badge-green { color: var(--green); border-color: var(--green-dim); background: var(--green-muted); }
+  .badge-amber { color: var(--amber); border-color: #6b4510; background: var(--amber-muted); }
+
+  /* Section label */
+  .section-label {
+    font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--text3); text-transform: uppercase; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Hero block */
+  .hero { margin-bottom: 32px; }
+  .hero h1 {
+    font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--green);
+    letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 10px;
+  }
+  .hero p { font-size: 13px; color: var(--text2); max-width: 600px; line-height: 1.7; }
+
+  /* Stat row */
+  .stat-row { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+  .stat {
+    flex: 1; min-width: 120px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .stat-val { font-family: var(--mono); font-size: 18px; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+
+  /* Two col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  @media (max-width: 580px) { .two-col { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .card-title {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text2);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px;
+  }
+
+  /* Rule list */
+  .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .rule-item { display: flex; align-items: flex-start; gap: 10px; }
+  .rule-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+    margin-top: 5px; flex-shrink: 0;
+  }
+  .rule-dot.amber { background: var(--amber); }
+  .rule-name { font-family: var(--mono); font-size: 12px; color: var(--text); font-weight: 500; }
+  .rule-desc { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+  /* Phase timeline */
+  .phases { margin-bottom: 32px; }
+  .phase-row {
+    display: grid; grid-template-columns: 70px 1fr;
+    gap: 0; border-left: 2px solid var(--border2); margin-left: 10px; padding-left: 0;
+  }
+  .phase-item {
+    display: contents;
+  }
+  .phase-week {
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+    padding: 0 16px 0 16px; padding-top: 3px; text-align: right;
+    position: relative;
+  }
+  .phase-week::before {
+    content: ''; position: absolute; left: -7px; top: 7px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--green);
+  }
+  .phase-week.done::before { background: var(--green); }
+  .phase-body {
+    padding: 0 0 20px 16px;
+  }
+  .phase-title { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .phase-tasks { font-size: 11px; color: var(--text3); line-height: 1.6; }
+
+  /* Tech stack */
+  .stack-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tech-tag {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    padding: 4px 10px; border-radius: 4px;
+    background: var(--surface2); border: 1px solid var(--border2); color: var(--text2);
+  }
+  .tech-tag.core { border-color: var(--green-dim); color: var(--green); background: var(--green-muted); }
+
+  /* MVP scope box */
+  .mvp-box {
+    background: var(--surface); border: 1px solid var(--green-dim);
+    border-left: 3px solid var(--green);
+    border-radius: 8px; padding: 18px 20px; margin-bottom: 32px;
+  }
+  .mvp-box .card-title { color: var(--green); }
+  .mvp-feature { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .check {
+    width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--green);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .check svg { width: 8px; height: 8px; stroke: var(--green); stroke-width: 2.5; fill: none; }
+  .mvp-text { font-size: 12px; color: var(--text); line-height: 1.5; }
+  .mvp-text span { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+
+  /* Constraint / risk box */
+  .warn-box {
+    background: var(--amber-muted); border: 1px solid #6b4510;
+    border-left: 3px solid var(--amber);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 32px;
+    font-size: 12px; color: var(--text2); line-height: 1.7;
+  }
+  .warn-box strong { color: var(--amber); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; }
+
+  /* Output block */
+  .output-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+  @media (max-width: 580px) { .output-row { grid-template-columns: 1fr; } }
+  .output-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; text-align: center;
+  }
+  .output-icon {
+    font-family: var(--mono); font-size: 20px; font-weight: 600; color: var(--green);
+    margin-bottom: 6px;
+  }
+  .output-name { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .output-desc { font-size: 11px; color: var(--text3); }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .footer-text { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-mark">LW</div>
+    <div>
+      <div class="project-name">LinuxWatch</div>
+      <div class="project-sub">v0.1.0 — internship portfolio project</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <span class="badge badge-green">DEFENSIVE</span>
+    <span class="badge badge-amber">IN PROGRESS</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="section-label">project overview</div>
+  <h1>Linux Log Anomaly Detector</h1>
+  <p>A CLI-based defensive security tool that ingests Linux system logs, applies rule-based detection logic to surface suspicious activity, and generates a structured incident report — demonstrating practical SOC-analyst thinking on a real Fedora system.</p>
+</div>
+
+<!-- Stats -->
+<div class="stat-row">
+  <div class="stat">
+    <div class="stat-val">~7 wks</div>
+    <div class="stat-label">build timeline</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">4</div>
+    <div class="stat-label">detection rules</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">3</div>
+    <div class="stat-label">output formats</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">0</div>
+    <div class="stat-label">external services needed</div>
+  </div>
+</div>
+
+<!-- Detection rules + Tech stack -->
+<div class="two-col">
+  <div class="card">
+    <div class="card-title">Detection rules (MVP)</div>
+    <ul class="rule-list">
+      <li class="rule-item">
+        <div class="rule-dot"></div>
+        <div>
+          <div class="rule-name">Brute force SSH</div>
+          <div class="rule-desc">&gt;5 failed logins from same IP within 60s window</div>
+        </div>
+      </li>
+      <li class="rule-item">
+        <div class="rule-dot"></div>
+        <div>
+          <div class="rule-name">Sudo anomaly</div>
+          <div class="rule-desc">sudo usage by account with no prior sudo history</div>
+        </div>
+      </li>
+      <li class="rule-item">
+        <div class="rule-dot"></div>
+        <div>
+          <div class="rule-name">New user creation</div>
+          <div class="rule-desc">useradd / adduser events in auth.log</div>
+        </div>
+      </li>
+      <li class="rule-item">
+        <div class="rule-dot amber"></div>
+        <div>
+          <div class="rule-name">Off-hours login</div>
+          <div class="rule-desc">successful auth outside configurable work-hours window</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tech stack</div>
+    <div class="stack-grid">
+      <span class="tech-tag core">Python 3</span>
+      <span class="tech-tag core">re</span>
+      <span class="tech-tag core">datetime</span>
+      <span class="tech-tag core">argparse</span>
+      <span class="tech-tag core">rich</span>
+      <span class="tech-tag">json</span>
+      <span class="tech-tag">pytest</span>
+      <span class="tech-tag">Jinja2</span>
+      <span class="tech-tag">GitHub</span>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="card-title">Log sources</div>
+      <div class="stack-grid">
+        <span class="tech-tag">/var/log/auth.log</span>
+        <span class="tech-tag">journalctl</span>
+        <span class="tech-tag">/var/log/syslog</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MVP scope -->
+<div class="mvp-box">
+  <div class="card-title">Committed MVP scope — no more, no less</div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">Python CLI tool — <span>python linuxwatch.py --log auth.log --report html</span></div>
+  </div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">4 detection rules, each as its own class with a <span>detect(entries)</span> method</div>
+  </div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">JSON alert output — machine-readable, timestamped, severity-tagged</div>
+  </div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">Static HTML report — single file, openable in browser, demoable in interviews</div>
+  </div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">Unit tests for each rule via <span>pytest</span></div>
+  </div>
+  <div class="mvp-feature">
+    <div class="check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>
+    <div class="mvp-text">GitHub repo with proper README, clean commit history, and a demo screenshot</div>
+  </div>
+</div>
+
+<!-- Scope warning -->
+<div class="warn-box">
+  <strong>SCOPE CONSTRAINT — COMMITTED</strong><br>
+  No Flask. No real-time streaming. No database. No web interface. If the MVP is done early, one optional extension is permitted — phishing domain lookup against known IOC feeds, or a simple CSV export. The HTML report is the dashboard. That is enough.
+</div>
+
+<!-- Build phases -->
+<div class="section-label">build timeline</div>
+<div class="phases">
+  <div class="phase-row">
+    <div class="phase-item">
+      <div class="phase-week">Wk 1–2</div>
+      <div class="phase-body">
+        <div class="phase-title">Parser + rule engine</div>
+        <div class="phase-tasks">Log ingestion, regex patterns for each log format, rule class structure, sliding-window brute-force logic</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-week">Wk 3–4</div>
+      <div class="phase-body">
+        <div class="phase-title">CLI + JSON output</div>
+        <div class="phase-tasks">argparse interface, severity tagging (INFO / WARNING / CRITICAL), JSON alert schema, rich terminal summary</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-week">Wk 5–6</div>
+      <div class="phase-body">
+        <div class="phase-title">HTML report + tests</div>
+        <div class="phase-tasks">Jinja2 static report template, pytest unit tests for all four rules, sample log fixtures for testing</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-week">Wk 7</div>
+      <div class="phase-body">
+        <div class="phase-title">GitHub polish + optional extension</div>
+        <div class="phase-tasks">README with demo gif, clean commit history, optional: IOC feed lookup or CSV export module</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-week">Wk 8</div>
+      <div class="phase-body">
+        <div class="phase-title">Interview prep</div>
+        <div class="phase-tasks">Practice demo walkthrough, prepare 15-second project pitch, rehearse technical questions about detection logic</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Outputs -->
+<div class="section-label">deliverables</div>
+<div class="output-row">
+  <div class="output-card">
+    <div class="output-icon">&gt;_</div>
+    <div class="output-name">CLI summary</div>
+    <div class="output-desc">rich-formatted terminal output with severity colour coding</div>
+  </div>
+  <div class="output-card">
+    <div class="output-icon">{ }</div>
+    <div class="output-name">JSON alerts</div>
+    <div class="output-desc">machine-readable alert file, timestamped and severity-tagged</div>
+  </div>
+  <div class="output-card">
+    <div class="output-icon">&#9634;</div>
+    <div class="output-name">HTML report</div>
+    <div class="output-desc">single-file incident summary, openable in any browser</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-text">LinuxWatch — portfolio project brief</div>
+  <div class="footer-text">Teknik Informatika, Semester 6 · Internship prep 2026</div>
+</div>
+
+</body>
+</html>
