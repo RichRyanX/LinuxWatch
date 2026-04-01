@@ -16,6 +16,8 @@ from rules.sudo_anomaly import SudoAnomalyRule
 from rules.new_user import NewUserRule
 from rules.off_hours import OffHoursRule
 
+from output.html_report import save_html
+
 console = Console()
 
 RULES = [
@@ -115,6 +117,12 @@ def main():
         help="Save alerts to a JSON file at the given path",
     )
 
+    parser.add_argument(
+        "--html",
+        metavar="OUTPUT",
+        help="Save a static HTML report at the given path",
+    )
+
     args = parser.parse_args()
 
     alerts = run_analysis(args.log)
@@ -122,6 +130,10 @@ def main():
 
     if args.json:
         save_json(alerts, args.json)
+
+    if args.html:
+        save_html(alerts, args.log, args.html)
+        console.print(f"\n[bold green]HTML report saved to:[/bold green] {args.html}")
 
 
 if __name__ == "__main__":
