@@ -6,6 +6,16 @@ Built as a portfolio project demonstrating practical SOC-analyst thinking — pa
 
 ---
 
+## Demo
+
+**Terminal output:**
+![Terminal demo](docs/demo_terminal.png)
+
+**HTML incident report:**
+![HTML report](docs/demo_report.png)
+
+---
+
 ## Features
 
 - Detects SSH brute force attacks (sliding 60-second window)
